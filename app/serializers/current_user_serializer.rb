@@ -7,6 +7,7 @@ class CurrentUserSerializer < BasicUserSerializer
              :unread_notifications,
              :unread_private_messages,
              :unread_high_priority_notifications,
+             :all_unread_notifications,
              :read_first_notification?,
              :admin?,
              :notification_channel_position,
@@ -43,6 +44,7 @@ class CurrentUserSerializer < BasicUserSerializer
              :dismissed_banner_key,
              :is_anonymous,
              :reviewable_count,
+             :unseen_reviewable_count,
              :read_faq?,
              :automatically_unpin_topics,
              :mailing_list_mode,
@@ -74,7 +76,9 @@ class CurrentUserSerializer < BasicUserSerializer
              :experimental_sidebar_enabled,
              :status,
              :sidebar_category_ids,
-             :sidebar_tag_names
+             :sidebar_tag_names,
+             :grouped_unread_high_priority_notifications,
+             :like_notification_frequency
 
   delegate :user_stat, to: :object, private: true
   delegate :any_posts, :draft_count, :pending_posts_count, :read_faq?, to: :user_stat
@@ -150,6 +154,10 @@ class CurrentUserSerializer < BasicUserSerializer
 
   def bookmark_auto_delete_preference
     object.user_option.bookmark_auto_delete_preference
+  end
+
+  def like_notification_frequency
+    object.user_option.like_notification_frequency
   end
 
   def can_send_private_email_messages
@@ -259,10 +267,6 @@ class CurrentUserSerializer < BasicUserSerializer
     object.anonymous?
   end
 
-  def reviewable_count
-    Reviewable.list_for(object).count
-  end
-
   def can_review
     scope.can_see_review_queue?
   end
@@ -337,5 +341,17 @@ class CurrentUserSerializer < BasicUserSerializer
 
   def status
     UserStatusSerializer.new(object.user_status, root: false)
+  end
+
+  def include_grouped_unread_high_priority_notifications?
+    SiteSetting.enable_revamped_user_menu
+  end
+
+  def include_all_unread_notifications?
+    SiteSetting.enable_revamped_user_menu
+  end
+
+  def include_unseen_reviewable_count?
+    SiteSetting.enable_revamped_user_menu
   end
 end

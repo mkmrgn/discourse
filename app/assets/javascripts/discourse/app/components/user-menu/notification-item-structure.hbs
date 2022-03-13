@@ -1,0 +1,9 @@
+<li ...attributes>
+  <a
+    href={{@url}}
+    title={{if @linkTitle @linkTitle}}
+    {{on "click" this.onClick}}
+  >
+    {{yield}}
+  </a>
+</li>
