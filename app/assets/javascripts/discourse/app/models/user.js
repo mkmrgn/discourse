@@ -121,10 +121,6 @@ const User = RestModel.extend({
     reason: null,
   },
 
-  init() {
-    this.appEvents = getOwner(this).lookup("service:appEvents");
-  },
-
   @discourseComputed("can_be_deleted", "post_count")
   canBeDeleted(canBeDeleted, postCount) {
     const maxPostCount = this.siteSettings.delete_all_posts_max;
