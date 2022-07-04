@@ -1761,6 +1761,21 @@ class PluginApi {
     registerUserMenuComponentForNotificationType(notificationType, component);
   }
 
+  /**
+   * Registers a new tab for the user menu.
+   *
+   * ```
+   * api.registerUserMenuTab({
+   *  id: "assign-notifications",
+   *  panelComponent: "user-menu/assign-notifications-list",
+   *  icon: "some-icon",
+   *  notificationTypesForCount: ["assign", "private_message"],
+   *  shouldDisplay(currentUser, siteSettings, site) {
+   *    return currentUser.can_see_assign && siteSettings.enable_assign;
+   *  },
+   * });
+   * ```
+   */
   registerUserMenuTab(config) {
     registerUserMenuTab(config);
   }
