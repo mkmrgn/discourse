@@ -41,7 +41,6 @@ export default class UserMenu extends GlimmerComponent {
 
   @cached
   get topTabs() {
-    // TODO: handle keyboard navigation, see commit 5276d43
     const tabs = this._coreTopTabs;
     const reviewQueueTabIndex = tabs.findIndex(
       (tab) => tab.id === ReviewQueueTabId

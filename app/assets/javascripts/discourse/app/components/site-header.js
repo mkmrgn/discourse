@@ -281,19 +281,53 @@ const SiteHeaderComponent = MountWidget.extend(
 
       const header = document.querySelector("header.d-header");
       this._itsatrap = new ItsATrap(header);
-      this._itsatrap.bind(["right", "left"], (e) => {
-        const activeTab = document.querySelector(".glyphs .menu-link.active");
-
-        if (activeTab) {
-          let focusedTab = document.activeElement;
-          if (!focusedTab.dataset.tabNumber) {
-            focusedTab = activeTab;
+      const directions = ["right", "left"];
+      if (this.siteSettings.enable_revamped_user_menu) {
+        directions.push("up");
+        directions.push("down");
+      }
+      this._itsatrap.bind(directions, (e) => {
+        if (this.siteSettings.enable_revamped_user_menu) {
+          const activeTab = document.querySelector(
+            ".menu-tabs-container .btn.active"
+          );
+          if (activeTab) {
+            let activeTabNumber = document.activeElement.dataset.tabNumber;
+            if (!activeTabNumber) {
+              activeTabNumber = activeTab.dataset.tabNumber;
+            }
+            activeTabNumber = Number(activeTabNumber);
+            const maxTabNumber =
+              document.querySelectorAll(".menu-tabs-container .btn").length - 1;
+            const isNext = e.key === "ArrowRight" || e.key === "ArrowDown";
+            let nextTab = isNext ? activeTabNumber + 1 : activeTabNumber - 1;
+            if (isNext && nextTab > maxTabNumber) {
+              nextTab = 0;
+            }
+            if (!isNext && nextTab < 0) {
+              nextTab = maxTabNumber;
+            }
+            e.preventDefault();
+            document
+              .querySelector(
+                `.menu-tabs-container .btn[data-tab-number='${nextTab}']`
+              )
+              .focus();
           }
+        } else {
+          const activeTab = document.querySelector(".glyphs .menu-link.active");
 
-          this.appEvents.trigger("user-menu:navigation", {
-            key: e.key,
-            tabNumber: Number(focusedTab.dataset.tabNumber),
-          });
+          if (activeTab) {
+            let focusedTab = document.activeElement;
+            if (!focusedTab.dataset.tabNumber) {
+              focusedTab = activeTab;
+            }
+
+            this.appEvents.trigger("user-menu:navigation", {
+              key: e.key,
+              tabNumber: Number(focusedTab.dataset.tabNumber),
+            });
+          }
         }
       });
     },
@@ -434,7 +468,8 @@ const SiteHeaderComponent = MountWidget.extend(
           }
         }
 
-        // TODO: handle this better???
+        // TODO: remove the if condition when enable_revamped_user_menu is
+        // removed
         if (!panel.classList.contains("revamped")) {
           panel.style.setProperty("width", `${width}px`);
         }

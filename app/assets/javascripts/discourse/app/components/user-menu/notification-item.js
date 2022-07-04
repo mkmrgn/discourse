@@ -19,13 +19,15 @@ export function resetUserMenuTopicTitleDecorators() {
 
 export default class UserMenuNotificationItem extends GlimmerComponent {
   get className() {
-    // TODO handle mod warning message in pm notification item
     const classes = [];
     if (this.notification.read) {
       classes.push("read");
     }
     if (this.notificationName) {
       classes.push(this.notificationName.replace(/_/g, "-"));
+    }
+    if (this.notification.is_warning) {
+      classes.push("is-warning");
     }
     return classes.join(" ");
   }
