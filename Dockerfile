@@ -10,7 +10,7 @@ EXPOSE 6379
 
 RUN curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
-RUN apt-get update && apt-get install redis
+RUN apt-get -y update && apt-get -y install redis
 
 RUN service postgresql start && sudo -u postgres createuser -s root
 RUN go install github.com/mailhog/MailHog@latest
