@@ -12,4 +12,4 @@ RUN bundle install --gemfile=/root/discourse/Gemfile
 
 RUN bundle exec rake db:create
 RUN bundle exec rake db:migrate
-ENV RAILS_ENV=test bundle exec rake db:create db:migrate
+ENV RAILS_ENV="test bundle exec rake db:create db:migrate"
