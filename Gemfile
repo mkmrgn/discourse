@@ -262,7 +262,7 @@ if ENV["IMPORT"] == "1"
   gem 'csv'
 end
 
-gem 'webpush', require: false
+#gem 'webpush', require: false
 gem 'colored2', require: false
 gem 'maxminddb'
 
