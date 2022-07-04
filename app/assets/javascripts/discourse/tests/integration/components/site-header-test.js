@@ -9,7 +9,10 @@ import {
 } from "discourse/tests/helpers/qunit-helpers";
 import pretender from "discourse/tests/helpers/create-pretender";
 import hbs from "htmlbars-inline-precompile";
-import { click, settled } from "@ember/test-helpers";
+import { click, settled, triggerKeyEvent } from "@ember/test-helpers";
+
+const LEFT_ARROW = 37;
+const RIGHT_ARROW = 39;
 
 discourseModule("Integration | Component | site-header", function (hooks) {
   setupRenderingTest(hooks);
@@ -103,7 +106,6 @@ discourseModule("Integration | Component | site-header", function (hooks) {
         this.siteSettings.enable_revamped_user_menu = true;
         this.currentUser.set("all_unread_notifications", 1);
         this.currentUser.set("read_first_notification", false);
-        this.currentUser.set("enforcedSecondFactor", false);
       },
 
       test(assert) {
@@ -121,7 +123,6 @@ discourseModule("Integration | Component | site-header", function (hooks) {
         this.siteSettings.enable_revamped_user_menu = true;
         this.currentUser.set("all_unread_notifications", 1);
         this.currentUser.set("read_first_notification", true);
-        this.currentUser.set("enforcedSecondFactor", false);
       },
 
       test(assert) {
@@ -170,10 +171,44 @@ discourseModule("Integration | Component | site-header", function (hooks) {
 
     async test(assert) {
       await click(".header-dropdown-toggle.current-user");
-      assert.ok(exists(".user-menu.menu-panel.revamped"));
+      let activeTab = query(".menu-tabs-container .btn.active");
+      assert.strictEqual(activeTab.id, "user-menu-button-all-notifications");
 
-      await click(".d-header-wrap");
-      assert.ok(!exists(".user-menu.menu-panel.revamped"));
+      await triggerKeyEvent(document, "keydown", RIGHT_ARROW);
+      let focusedTab = document.activeElement;
+      assert.strictEqual(
+        focusedTab.id,
+        "user-menu-button-replies",
+        "pressing the right arrow key moves focus to the next tab towards the bottom"
+      );
+
+      await triggerKeyEvent(document, "keydown", RIGHT_ARROW);
+      await triggerKeyEvent(document, "keydown", RIGHT_ARROW);
+      await triggerKeyEvent(document, "keydown", RIGHT_ARROW);
+      await triggerKeyEvent(document, "keydown", RIGHT_ARROW);
+      await triggerKeyEvent(document, "keydown", RIGHT_ARROW);
+      await triggerKeyEvent(document, "keydown", RIGHT_ARROW);
+
+      focusedTab = document.activeElement;
+      assert.ok(
+        focusedTab.href.endsWith("/u/eviltrout/preferences"),
+        "the right arrow key can move the focus to the bottom tabs"
+      );
+
+      await triggerKeyEvent(document, "keydown", RIGHT_ARROW);
+      focusedTab = document.activeElement;
+      assert.strictEqual(
+        focusedTab.id,
+        "user-menu-button-all-notifications",
+        "the focus moves back to the top after reaching the bottom"
+      );
+
+      await triggerKeyEvent(document, "keydown", LEFT_ARROW);
+      focusedTab = document.activeElement;
+      assert.ok(
+        focusedTab.href.endsWith("/u/eviltrout/preferences"),
+        "the left arrow key moves the focus in the opposite direction"
+      );
     },
   });
 });

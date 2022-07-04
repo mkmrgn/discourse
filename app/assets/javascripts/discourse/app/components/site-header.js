@@ -281,12 +281,7 @@ const SiteHeaderComponent = MountWidget.extend(
 
       const header = document.querySelector("header.d-header");
       this._itsatrap = new ItsATrap(header);
-      const directions = ["right", "left"];
-      if (this.siteSettings.enable_revamped_user_menu) {
-        directions.push("up");
-        directions.push("down");
-      }
-      this._itsatrap.bind(directions, (e) => {
+      this._itsatrap.bind(["right", "left"], (e) => {
         if (this.siteSettings.enable_revamped_user_menu) {
           const activeTab = document.querySelector(
             ".menu-tabs-container .btn.active"
@@ -307,7 +302,6 @@ const SiteHeaderComponent = MountWidget.extend(
             if (!isNext && nextTab < 0) {
               nextTab = maxTabNumber;
             }
-            e.preventDefault();
             document
               .querySelector(
                 `.menu-tabs-container .btn[data-tab-number='${nextTab}']`
