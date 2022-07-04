@@ -121,7 +121,7 @@ gem 'sidekiq'
 gem 'mini_scheduler'
 
 gem 'execjs', require: false
-gem 'mini_racer'
+gem 'mini_racer', github: 'rubyjs/mini_racer', branch: 'refs/pull/186/head'
 
 gem 'highline', require: false
 

@@ -4,7 +4,6 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update
 RUN apt-get -y upgrade
 RUN apt-get install -y wget lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libgdbm6 checkinstall ruby-full libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev
-RUN gem update --system
 
 EXPOSE 5432
 EXPOSE 6379
