@@ -3,14 +3,17 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libgdbm6 checkinstall ruby-full libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev
+RUN apt-get install -y wget lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libgdbm6 checkinstall ruby-full libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev
 
 EXPOSE 5432
 EXPOSE 6379
 
 RUN wget https://www.openssl.org/source/openssl-1.1.1n.tar.gz && tar -zxf openssl-1.1.1n.tar.gz
-WORKDIR /root/openssl-1.1.1n
-RUN make && make test && make install
+RUN pwd
+WORKDIR /openssl-1.1.1n
+RUN ls
+RUN ./config --prefix=/opt/openssl-1.1.1n --openssldir=/opt/openssl-1.1.1n shared zlib
+RUN make && make install
 RUN rm -rf /opt/openssl-1.1.1n/certs && ln -s /etc/ssl/certs /opt/openssl-1.1.1n
 
 RUN curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
