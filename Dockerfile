@@ -1,9 +1,9 @@
-FROM ubuntu:latest
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev ruby-full libdb-dev postgresql-14 sqlite3 bundler golang-go imagemagick libpq-dev
+RUN apt-get install -y lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev ruby-full libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev
 
 EXPOSE 5432
 EXPOSE 6379
