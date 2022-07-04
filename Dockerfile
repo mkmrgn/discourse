@@ -14,7 +14,7 @@ RUN apt-get -y update && apt-get -y install redis
 
 RUN service postgresql start && sudo -u postgres createuser -s root
 RUN go install github.com/mailhog/MailHog@latest
-RUN git clone https://github.com/discourse/discourse.git ~/discourse
+RUN git clone https://github.com/mkmrgn/discourse.git ~/discourse
 
 WORKDIR /root/discourse
 RUN bundle install --gemfile=Gemfile
