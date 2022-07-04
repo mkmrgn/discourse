@@ -17,5 +17,5 @@ RUN go install github.com/mailhog/MailHog@latest
 RUN git clone https://github.com/discourse/discourse.git ~/discourse
 
 WORKDIR /root/discourse
-RUN bundle install
+RUN bundle install --gemfile=Gemfile
 
