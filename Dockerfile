@@ -13,7 +13,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://
 RUN apt-get -y update && apt-get -y install redis
 
 RUN service postgresql start && sudo -u postgres createuser -s root
-RUN go install github.com/mailhog/MailHog@latest
+RUN go get github.com/mailhog/MailHog
 RUN git clone https://github.com/mkmrgn/discourse.git ~/discourse
 
 WORKDIR /root/discourse
