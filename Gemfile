@@ -41,7 +41,8 @@ gem 'actionview_precompiler', require: false
 
 gem 'seed-fu'
 
-gem 'mail', git: 'https://github.com/discourse/mail.git'
+#gem 'mail', git: 'https://github.com/discourse/mail.git', branch: 'main'
+gem 'mail', git: 'https://github.com/mikel/mail.git', branch: 'main'
 gem 'mini_mime'
 gem 'mini_suffix'
 
@@ -121,7 +122,7 @@ gem 'sidekiq'
 gem 'mini_scheduler'
 
 gem 'execjs', require: false
-gem 'mini_racer', github: 'rubyjs/mini_racer', branch: 'refs/pull/186/head'
+gem 'mini_racer', git: 'https://github.com/rubyjs/mini_racer', branch: 'refs/pull/186/head'
 
 gem 'highline', require: false
 

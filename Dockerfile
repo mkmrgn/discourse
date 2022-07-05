@@ -1,9 +1,11 @@
-FROM ubuntu:20.04
+#FROM ubuntu:20.04
+FROM ruby:2.7.6-bullseye
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update
 RUN apt-get -y upgrade
-RUN apt-get install -y wget lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libgdbm6 checkinstall ruby-full libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev
+#RUN apt-get install -y wget lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libgdbm6 checkinstall ruby-full libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev
+RUN apt-get install -y wget lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libgdbm6 checkinstall libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev
 
 EXPOSE 5432
 EXPOSE 6379
@@ -25,5 +27,5 @@ RUN go get github.com/mailhog/MailHog
 RUN git clone https://github.com/mkmrgn/discourse.git ~/discourse
 
 WORKDIR /root/discourse
-RUN bundle install --gemfile=Gemfile
+RUN bundle install --verbose
 
