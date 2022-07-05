@@ -46,7 +46,7 @@ gem 'mail', git: 'https://github.com/mikel/mail.git'
 gem 'mini_mime'
 gem 'mini_suffix'
 
-gem 'redis'
+gem 'redis', '4.5.1'
 
 # This is explicitly used by Sidekiq and is an optional dependency.
 # We tell Sidekiq to use the namespace "sidekiq" which triggers this
