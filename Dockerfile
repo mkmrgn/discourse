@@ -3,11 +3,13 @@ FROM ruby:2.7.6-bullseye
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update
 RUN apt-get -y upgrade
-#RUN apt-get install -y wget lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libgdbm6 checkinstall ruby-full libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev
-RUN apt-get install -y wget lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libgdbm6 checkinstall libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev curl npm
+RUN apt-get install -y wget lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libgdbm6 checkinstall libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev curl
 RUN gem update bundler
+
+RUN apt update
+RUN curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
+RUN apt -y install nodejs
 RUN npm install --global yarn
-RUN pwd && ls -lah
 
 EXPOSE 5432
 EXPOSE 6379
