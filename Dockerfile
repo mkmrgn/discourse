@@ -7,14 +7,13 @@ RUN apt-get -y upgrade
 RUN apt-get install -y wget lsb-release git curl apt-utils libssl-dev libreadline-dev zlib1g-dev autoconf bison build-essential libyaml-dev libreadline-dev libncurses5-dev libffi-dev libgdbm-dev libgdbm6 checkinstall libdb-dev postgresql sqlite3 bundler golang-go imagemagick libpq-dev curl npm
 RUN gem update bundler
 RUN npm install --global yarn
+RUN pwd && ls -lah
 
 EXPOSE 5432
 EXPOSE 6379
 
 RUN wget https://www.openssl.org/source/openssl-1.1.1n.tar.gz && tar -zxf openssl-1.1.1n.tar.gz
-RUN pwd
 WORKDIR /openssl-1.1.1n
-RUN ls
 RUN ./config --prefix=/opt/openssl-1.1.1n --openssldir=/opt/openssl-1.1.1n shared zlib
 RUN make && make install
 RUN rm -rf /opt/openssl-1.1.1n/certs && ln -s /etc/ssl/certs /opt/openssl-1.1.1n
@@ -26,8 +25,6 @@ RUN apt-get -y update && apt-get -y install redis
 RUN service postgresql start && sudo -u postgres createuser -s root
 RUN go get github.com/mailhog/MailHog
 RUN git clone https://github.com/mkmrgn/discourse.git ~/discourse
-
-RUN pwd && ls -lah
 
 WORKDIR /root/discourse
 RUN bundle install --verbose
